@@ -1178,12 +1178,13 @@ export class Html5Qrcode {
         const supportZoom = this.getRunningTrackCameraCapabilities().zoomFeature().isSupported()
         // There is difference in size of rendered video and one that is
         // considered by the canvas. Need to account for scaling factor.
-        const elementScan = supportZoom ? this.renderedCamera!.getSurface() : document.getElementById(this.elementId);
+      
+        const elementScan:HTMLElement | HTMLVideoElement = supportZoom ? this.renderedCamera!.getSurface() : document.getElementById(this.elementId)!;
         
         const widthRatio
-            = supportZoom ? elementScan.videoWidth / elementScan.clientWidth : 1;
+            = supportZoom ? (elementScan as HTMLVideoElement).videoWidth / elementScan.clientWidth : 1;
         const heightRatio
-            = supportZoom ? elementScan.videoHeight / elementScan.clientHeight: 1;
+            = supportZoom ? (elementScan as HTMLVideoElement).videoHeight / elementScan.clientHeight: 1;
 
         if (!this.qrRegion) {
             throw "qrRegion undefined when localMediaStream is ready.";
@@ -1199,7 +1200,7 @@ export class Html5Qrcode {
         // More reference:
         // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
         this.context!.drawImage(
-            videoElement,
+            elementScan as HTMLImageElement,
             /* sx= */ sxOffset,
             /* sy= */ syOffset,
             /* sWidth= */ sWidthOffset,
