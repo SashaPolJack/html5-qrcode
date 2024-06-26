@@ -1175,17 +1175,21 @@ export class Html5Qrcode {
         if (!this.renderedCamera) {
             return;
         }
+        const supportZoom = this.getRunningTrackCameraCapabilities().zoomFeature().isSupported()
         // There is difference in size of rendered video and one that is
         // considered by the canvas. Need to account for scaling factor.
-        const videoElement = this.renderedCamera!.getSurface();
+        const elementScan = supportZoom ? this.renderedCamera!.getSurface() : document.getElementById(this.elementId);
+        
         const widthRatio
-            = videoElement.videoWidth / videoElement.clientWidth;
+            = supportZoom ? elementScan.videoWidth / elementScan.clientWidth : 1;
         const heightRatio
-            = videoElement.videoHeight / videoElement.clientHeight;
+            = supportZoom ? elementScan.videoHeight / elementScan.clientHeight: 1;
 
         if (!this.qrRegion) {
             throw "qrRegion undefined when localMediaStream is ready.";
         }
+
+
         const sWidthOffset = this.qrRegion.width * widthRatio;
         const sHeightOffset = this.qrRegion.height * heightRatio;
         const sxOffset = this.qrRegion.x * widthRatio;
