@@ -569,8 +569,8 @@ var Html5Qrcode = (function () {
         }
         var sWidthOffset = this.qrRegion.width * widthRatio;
         var sHeightOffset = this.qrRegion.height * heightRatio;
-        var sxOffset = this.qrRegion.x * widthRatio;
-        var syOffset = this.qrRegion.y * heightRatio;
+        var sxOffset = Math.ceil(videoElement.videoWidth / 2) - Math.ceil(this.qrRegion.x / 2);
+        var syOffset = Math.ceil(videoElement.videoHeight / 2) - Math.ceil(this.qrRegion.y / 2);
         this.context.drawImage(videoElement, sxOffset, syOffset, sWidthOffset, sHeightOffset, 0, 0, this.qrRegion.width, this.qrRegion.height);
         var triggerNextScan = function () {
             _this.foreverScanTimeout = setTimeout(function () {

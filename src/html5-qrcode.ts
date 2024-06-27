@@ -1188,8 +1188,8 @@ export class Html5Qrcode {
         }
         const sWidthOffset = this.qrRegion.width * widthRatio;
         const sHeightOffset = this.qrRegion.height * heightRatio;
-        const sxOffset = this.qrRegion.x * widthRatio;
-        const syOffset = this.qrRegion.y * heightRatio;
+        const sxOffset = Math.ceil(videoElement.videoWidth / 2) - Math.ceil(this.qrRegion.x / 2);
+        const syOffset = Math.ceil(videoElement.videoHeight / 2) - Math.ceil(this.qrRegion.y / 2)
 
         // Only decode the relevant area, ignore the shaded area,
         // More reference:

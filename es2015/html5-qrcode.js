@@ -538,8 +538,8 @@ export class Html5Qrcode {
         }
         const sWidthOffset = this.qrRegion.width * widthRatio;
         const sHeightOffset = this.qrRegion.height * heightRatio;
-        const sxOffset = this.qrRegion.x * widthRatio;
-        const syOffset = this.qrRegion.y * heightRatio;
+        const sxOffset = Math.ceil(videoElement.videoWidth / 2) - Math.ceil(this.qrRegion.x / 2);
+        const syOffset = Math.ceil(videoElement.videoHeight / 2) - Math.ceil(this.qrRegion.y / 2);
         this.context.drawImage(videoElement, sxOffset, syOffset, sWidthOffset, sHeightOffset, 0, 0, this.qrRegion.width, this.qrRegion.height);
         const triggerNextScan = () => {
             this.foreverScanTimeout = setTimeout(() => {
