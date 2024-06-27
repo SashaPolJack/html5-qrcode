@@ -530,17 +530,17 @@ export class Html5Qrcode {
         if (!this.renderedCamera) {
             return;
         }
-        const elementScan = this.renderedCamera.getSurface();
-        const widthRatio = elementScan.videoWidth / elementScan.clientWidth;
-        const heightRatio = elementScan.videoHeight / elementScan.clientHeight;
+        const videoElement = this.renderedCamera.getSurface();
+        const widthRatio = videoElement.videoWidth / videoElement.clientWidth;
+        const heightRatio = videoElement.videoHeight / videoElement.clientHeight;
         if (!this.qrRegion) {
             throw "qrRegion undefined when localMediaStream is ready.";
         }
         const sWidthOffset = this.qrRegion.width * widthRatio;
         const sHeightOffset = this.qrRegion.height * heightRatio;
-        const sxOffset = Math.ceil(elementScan.videoWidth / 2) - Math.ceil(this.qrRegion.x / 2);
-        const syOffset = Math.ceil(elementScan.videoHeight / 2) - Math.ceil(this.qrRegion.y / 2);
-        this.context.drawImage(elementScan, sxOffset, syOffset, sWidthOffset, sHeightOffset, 0, 0, this.qrRegion.width, this.qrRegion.height);
+        const sxOffset = this.qrRegion.x * widthRatio;
+        const syOffset = this.qrRegion.y * heightRatio;
+        this.context.drawImage(videoElement, sxOffset, syOffset, sWidthOffset, sHeightOffset, 0, 0, this.qrRegion.width, this.qrRegion.height);
         const triggerNextScan = () => {
             this.foreverScanTimeout = setTimeout(() => {
                 this.foreverScan(internalConfig, qrCodeSuccessCallback, qrCodeErrorCallback);

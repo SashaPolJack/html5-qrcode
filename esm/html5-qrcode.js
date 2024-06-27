@@ -558,17 +558,17 @@ var Html5Qrcode = (function () {
         if (!this.renderedCamera) {
             return;
         }
-        var elementScan = this.renderedCamera.getSurface();
-        var widthRatio = elementScan.videoWidth / elementScan.clientWidth;
-        var heightRatio = elementScan.videoHeight / elementScan.clientHeight;
+        var videoElement = this.renderedCamera.getSurface();
+        var widthRatio = videoElement.videoWidth / videoElement.clientWidth;
+        var heightRatio = videoElement.videoHeight / videoElement.clientHeight;
         if (!this.qrRegion) {
             throw "qrRegion undefined when localMediaStream is ready.";
         }
         var sWidthOffset = this.qrRegion.width * widthRatio;
         var sHeightOffset = this.qrRegion.height * heightRatio;
-        var sxOffset = Math.ceil(elementScan.videoWidth / 2) - Math.ceil(this.qrRegion.x / 2);
-        var syOffset = Math.ceil(elementScan.videoHeight / 2) - Math.ceil(this.qrRegion.y / 2);
-        this.context.drawImage(elementScan, sxOffset, syOffset, sWidthOffset, sHeightOffset, 0, 0, this.qrRegion.width, this.qrRegion.height);
+        var sxOffset = this.qrRegion.x * widthRatio;
+        var syOffset = this.qrRegion.y * heightRatio;
+        this.context.drawImage(videoElement, sxOffset, syOffset, sWidthOffset, sHeightOffset, 0, 0, this.qrRegion.width, this.qrRegion.height);
         var triggerNextScan = function () {
             _this.foreverScanTimeout = setTimeout(function () {
                 _this.foreverScan(internalConfig, qrCodeSuccessCallback, qrCodeErrorCallback);
