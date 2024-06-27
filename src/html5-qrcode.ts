@@ -1177,28 +1177,25 @@ export class Html5Qrcode {
         }
         // There is difference in size of rendered video and one that is
         // considered by the canvas. Need to account for scaling factor.
-        const elementScan = this.renderedCamera!.getSurface();
-        
+        const videoElement = this.renderedCamera!.getSurface();
         const widthRatio
-            =  elementScan.videoWidth / elementScan.clientWidth ;
+            = videoElement.videoWidth / videoElement.clientWidth;
         const heightRatio
-            =  elementScan.videoHeight / elementScan.clientHeight;
+            = videoElement.videoHeight / videoElement.clientHeight;
 
         if (!this.qrRegion) {
             throw "qrRegion undefined when localMediaStream is ready.";
         }
-
-
         const sWidthOffset = this.qrRegion.width * widthRatio;
         const sHeightOffset = this.qrRegion.height * heightRatio;
-        const sxOffset = Math.ceil(elementScan.videoWidth / 2) - Math.ceil(this.qrRegion.x / 2);
-        const syOffset =  Math.ceil(elementScan.videoHeight / 2) - Math.ceil(this.qrRegion.y / 2);
+        const sxOffset = this.qrRegion.x * widthRatio;
+        const syOffset = this.qrRegion.y * heightRatio;
 
         // Only decode the relevant area, ignore the shaded area,
         // More reference:
         // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
         this.context!.drawImage(
-            elementScan,
+            videoElement,
             /* sx= */ sxOffset,
             /* sy= */ syOffset,
             /* sWidth= */ sWidthOffset,
