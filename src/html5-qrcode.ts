@@ -1198,7 +1198,7 @@ export class Html5Qrcode {
         // More reference:
         // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
         this.context!.drawImage(
-            elementScan as HTMLImageElement,
+            elementScan,
             /* sx= */ sxOffset,
             /* sy= */ syOffset,
             /* sWidth= */ sWidthOffset,
